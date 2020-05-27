@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { register } from "./../../redux/Register/actions";
-import { FetchApi } from "./../../redux/Api/apiActions";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { StoreUserData } from "./../../redux/User/actions";
+import FetchRegistration from "./../../redux/Api/Authentification/fetchregistration";
 const Register = () => {
   const dispatch = useDispatch();
   const [username, SetUsername] = useState("");
@@ -9,8 +9,8 @@ const Register = () => {
   const [password, SetPassword] = useState("");
 
   const handleClick = () => {
-    dispatch(() => register(username, email, password));
-    dispatch(() => FetchApi(username, email, password));
+    dispatch(StoreUserData(username, email, password));
+    dispatch(FetchRegistration(username, email, password));
   };
 
   return (

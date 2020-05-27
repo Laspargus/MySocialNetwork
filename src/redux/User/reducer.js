@@ -1,17 +1,17 @@
 const initialState = {
-  email: "",
   username: "",
+  email: "",
   password: "",
 };
 
-const registerReducer = (state = initialState, action) => {
+const userReducer = (state = initialState, action) => {
   console.log(action);
   switch (action.type) {
-    case "REGISTER":
+    case "STORE_USER_DATA":
       return {
         ...state,
-        email: action.email,
         username: action.username,
+        email: action.email,
         password: action.password,
       };
 
@@ -20,4 +20,4 @@ const registerReducer = (state = initialState, action) => {
   }
 };
 
-export default registerReducer;
+export default userReducer;

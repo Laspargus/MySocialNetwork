@@ -1,7 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutUser } from "./../../redux/Api/Authentification/actions";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+
+  const handleSignOut = () => {
+    Cookies.remove("user_token");
+    Cookies.remove("user_id");
+    dispatch(logoutUser());
+  };
+
+  const isAuthenticated = useSelector(
+    (state) => state.authentification.isAuthenticated
+  );
+
+  const username = useSelector((state) => state.user.username);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">
@@ -21,21 +38,38 @@ const Navbar = () => {
       </button>
       <div className="collapse navbar-collapse" id="navbarNavDropdown">
         <ul className="navbar-nav">
-          <li className="nav-item">
-            <Link className="nav-link" to="/profile">
-              Profile
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/login">
-              Sign In
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/register">
-              Sign up
-            </Link>
-          </li>
+          {isAuthenticated && (
+            <li className="nav-item">
+              <Link className="nav-link" to="/profile">
+                Profile
+              </Link>
+            </li>
+          )}
+          {!isAuthenticated && (
+            <li className="nav-item">
+              <Link className="nav-link" to="/login">
+                Sign In
+              </Link>
+            </li>
+          )}
+
+          {!isAuthenticated && (
+            <li className="nav-item">
+              <Link className="nav-link" to="/register">
+                Sign up
+              </Link>
+            </li>
+          )}
+
+          {isAuthenticated && (
+            <li className="nav-item">
+              <button className="btn btn-info" onClick={handleSignOut}>
+                Sign Out
+              </button>
+            </li>
+          )}
+
+          {isAuthenticated && <li className="nav-item">{username}</li>}
         </ul>
       </div>
     </nav>

@@ -1,28 +1,36 @@
 import React from "react";
-// import { Provider } from "react-redux";
-// import store from "./redux/store";
 import Navbar from "./Components/Navbar";
 import Profile from "./Components/Profile";
 import Register from "./Components/Register";
 import Login from "./Components/Login";
 import Home from "./Components/Home";
+import { useSelector } from "react-redux";
 
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 
 const App = () => {
+  const isAuthenticated = useSelector(
+    (state) => state.authentification.isAuthenticated
+  );
+
   return (
     <Router>
       <div>
         <Navbar />
         <Switch>
           <Route path="/login">
-            <Login />
+            {isAuthenticated ? <Redirect to="/profile" /> : <Login />}
           </Route>
           <Route path="/profile">
-            <Profile />
+            {!isAuthenticated ? <Redirect to="/login" /> : <Profile />}
           </Route>
           <Route path="/register">
-            <Register />
+            {isAuthenticated ? <Redirect to="/profile" /> : <Register />}
           </Route>
           <Route exact path="/">
             <Home />
