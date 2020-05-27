@@ -10,8 +10,7 @@ const registerReducer = (state = initialState, action) => {
     case "REGISTER":
       return {
         ...state,
-        // email: action.email,
-        email: "michou@gmail.com",
+        email: action.email,
         username: action.username,
         password: action.password,
       };

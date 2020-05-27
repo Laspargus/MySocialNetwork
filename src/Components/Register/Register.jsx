@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { register } from "./../../redux/Register/actions";
-
+import { FetchApi } from "./../../redux/Api/apiActions";
 const Register = () => {
   const dispatch = useDispatch();
   const [username, SetUsername] = useState("");
   const [email, SetEmail] = useState("");
   const [password, SetPassword] = useState("");
+
+  const handleClick = () => {
+    dispatch(() => register(username, email, password));
+    dispatch(() => FetchApi(username, email, password));
+  };
 
   return (
     <div className="card p-5 mt-5 col-md-8 offset-2">
@@ -31,10 +36,7 @@ const Register = () => {
         value={password}
         onChange={(event) => SetPassword(event.target.value)}
       />
-      <button
-        onClick={() => dispatch(register(username, email, password))}
-        className="m-2 btn btn-primary"
-      >
+      <button onClick={handleClick} className="m-2 btn btn-primary">
         Register
       </button>
     </div>
