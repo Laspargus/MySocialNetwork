@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+
 export const fetchRegistrationRequest = () => {
   return {
     type: "FETCH_REGISTRATION_REQUEST",
@@ -34,6 +36,14 @@ export const fetchLoginSuccess = (token) => {
   return {
     type: "FETCH_LOGIN_SUCCESS",
     token,
+  };
+};
+
+export const loadUser = (response) => {
+  return {
+    type: "LOAD_USER",
+    user: response,
+    token: Cookies.get("user_token"),
   };
 };
 

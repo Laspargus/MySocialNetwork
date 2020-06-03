@@ -2,13 +2,14 @@ import Cookies from "js-cookie";
 
 const initialState = {
   loading: false,
-  token: "",
-  errorMessage: "",
+  token: null,
+  user_id: null,
+  username: null,
+  errorMessage: null,
   isAuthenticated: Cookies.get("user_token") ? true : false,
 };
 
 const authentificationReducer = (state = initialState, action) => {
-  console.log("mon action", action);
   switch (action.type) {
     case "FETCH_REGISTRATION_REQUEST":
       return {
@@ -23,7 +24,21 @@ const authentificationReducer = (state = initialState, action) => {
         loading: false,
         isAuthenticated: true,
         token: action.token.jwt,
+        user_id: action.token.user.id,
         errorMessage: "",
+        username: action.token.user.username,
+      };
+
+    case "LOAD_USER":
+      console.log("action load user", action);
+      return {
+        ...state,
+        loading: false,
+        isAuthenticated: true,
+        user_id: action.user.id,
+        errorMessage: "",
+        username: action.user.username,
+        token: action.token.jwt,
       };
 
     case "FETCH_REGISTRATION_FAILURE":
@@ -35,11 +50,14 @@ const authentificationReducer = (state = initialState, action) => {
       };
 
     case "LOGOUT_USER":
+      Cookies.remove("user_token");
+      Cookies.remove("user_id");
       return {
         ...state,
         loading: false,
         isAuthenticated: false,
-        token: "",
+        token: null,
+        user_id: null,
         errorMessage: "",
       };
 
@@ -56,7 +74,9 @@ const authentificationReducer = (state = initialState, action) => {
         loading: false,
         isAuthenticated: true,
         token: action.token.jwt,
+        user_id: action.token.user.id,
         errorMessage: "",
+        username: action.token.user.username,
       };
 
     case "FETCH_LOGIN_FAILURE":

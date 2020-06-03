@@ -2,12 +2,23 @@ import React from "react";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { compose } from "redux";
-import authentificationReducer from "./Api/Authentification/reducer";
-import userReducer from "./User/reducer";
+import authentificationReducer from "./Authentification/reducer";
+import postsReducer from "./Post/reducer";
+
+const logger = (store) => {
+  return (next) => {
+    return (action) => {
+      console.log("[Middleware] Dispatching", action);
+      const result = next(action);
+      console.log("[Middleware] next state", store.getState());
+      return result;
+    };
+  };
+};
 
 const rootReducer = combineReducers({
-  user: userReducer,
   authentification: authentificationReducer,
+  posts: postsReducer,
 });
 
 const store = createStore(
@@ -19,6 +30,5 @@ const store = createStore(
 );
 
 store.subscribe(() => console.log(store.getState()));
-// store.dispatch(FetchApi());
 
 export default store;

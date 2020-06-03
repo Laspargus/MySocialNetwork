@@ -17,7 +17,8 @@ const Navbar = () => {
     (state) => state.authentification.isAuthenticated
   );
 
-  const username = useSelector((state) => state.user.username);
+  const user_id = useSelector((state) => state.authentification.user_id);
+  const username = useSelector((state) => state.authentification.username);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -40,7 +41,7 @@ const Navbar = () => {
         <ul className="navbar-nav">
           {isAuthenticated && (
             <li className="nav-item">
-              <Link className="nav-link" to="/profile">
+              <Link className="nav-link" to={"/profiles/" + user_id}>
                 Profile
               </Link>
             </li>
